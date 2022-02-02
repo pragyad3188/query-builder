@@ -1,4 +1,3 @@
-import background from "./Images/background.png";
 import React  from 'react';
 import Query_Builder from "./Components/Query_Builder";
 function App() {
