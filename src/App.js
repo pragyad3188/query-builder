@@ -1,23 +1,10 @@
-import logo from './logo.svg';
-import './App.css';
-
+import background from "./Images/background.png";
+import React  from 'react';
+import Query_Builder from "./Components/Query_Builder";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="h-screen bg-cover bg-top flex justify-center bg-Main-Background items-end overflow-y-auto">
+       <Query_Builder /> 
     </div>
   );
 }
