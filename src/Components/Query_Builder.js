@@ -40,7 +40,8 @@ function Query_Builder(props){
                     </p>)
                 }   
             </div>
-
+            <div className="flex flex-col justify-end flex-grow h-full overflow-auto px-6 py-2 ">
+                <div className="h-full overflow-auto">    
             <div className={`${RuleGroups.length<=1 ?"hidden ":"mt-4 ml-1 text-sm text-white font-medium pb-8"}`}>
                 <span className={`${conjunctionToggle === "AND" ? setStyle : notSetStyle}  rounded-l-md `} onClick={() => toggleConjunction("AND")}>
                 AND
@@ -60,11 +61,13 @@ function Query_Builder(props){
             <div className='ml-4 mt-1 mb-4'>
                 <button onClick={addGroup} className="py-2 px-5 text-white font-medium text-sm rounded-md bg-blue hover:bg-indigo-700 inline-block">+ Add new group filter</button>
             </div>
+            </div>
             <div className="m-2 ">
                 <button onClick={()=>clearAllQueries()}className={`bg-grey-1 py-2 px-5 text-white rounded-md font-medium text-base hover:bg-grey-2 opacity-70`}>Back</button>
                 <button onClick={()=>submitQuery()}className={`float-right bg-blue hover:bg-indigo-700 py-2 px-5 text-white rounded-md font-medium text-base`}>Finish</button>
             </div>
         </div>
+    </div>
     );
 }
 

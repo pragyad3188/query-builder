@@ -1,10 +1,10 @@
 import React,{useEffect, useState,useContext} from 'react';
 import { observer } from "mobx-react-lite";
 import queryStore from "../queryStore";
-import {nanoid} from "nanoid";
 import PropTypes from 'prop-types';
 import DropdownBar from './DropdownBar';
 import deleteIcon from '../Icons/delete.svg'
+import Input from './Input';
 function Rule(props) {
     const[fieldValue,setFieldValue]=useState(null);
     const[conditionValue,setConditionValue]=useState(null);
@@ -23,6 +23,26 @@ function Rule(props) {
     [   {type:null,values:["Offers","Performance","Platform","Product Feedback"]}
     ];
     
+    const themeValues=[{type:null,values:["Offers","Performance","Platform","Product Feedback"]}];
+    const languageValues=[{type:null,values:["Arabic","Chinese","English","French","Hindi"]}];
+    const ratingValues=[{type:null,values:["1","2","3","4","5"]}];
+    const sourceValues=[{type:null,values:["LinkedIn","GlassDoor","Facebook","Google","Twitter"]}];
+    const subThemeValues=[{type:null,values:["User Experience","Latency","Retention","Suggestions"]}];
+
+    const getValues=(field)=>{
+        switch(field)
+        {
+            case "Theme": return themeValues;
+            case "Sub-theme": return subThemeValues; 
+            case "Rating": return ratingValues;
+            case "Source": return sourceValues;
+            case "Language": return languageValues;
+            case "Initial": return criteriaDropdownValues;           
+            default:
+                return null;
+        }
+    }
+
     useEffect(()=>
     {
         updateRule(props.groupId,props.id ,fieldValue,criteriaValue,conditionValue);
@@ -47,13 +67,43 @@ function Rule(props) {
                 dropdownValues={conditionDropdownValues}
                 valueSelected={conditionValue}
                 setValueSelected={setConditionValue} />
-        <DropdownBar
+
+        {(["Theme","Sub-theme","Rating","Source","Language","Initial"].includes(fieldValue)||!fieldValue) && 
+            <DropdownBar
                 title="Criteria"
                 isVisible={true}
-                dropdownValues={criteriaDropdownValues}
+                dropdownValues={getValues(fieldValue)}
                 valueSelected={criteriaValue}
                 setValueSelected={setCriteriaValue} />
-                {props.isDeletable && <div onClick={props.deleteRule} className="h-9 w-9 bg-grey-4 flex align-center justify-center rounded-md p-1 mt-6 hover:bg-black cursor-pointer">
+        }
+        {
+            fieldValue==="Customer ID" &&
+            <Input
+            label="Criteria"
+            placeholder="Enter the customerId"
+            type="number"
+            value={criteriaValue}
+            changeValue={setCriteriaValue}/>
+        }
+        {
+            fieldValue==="Reason" &&
+            <Input
+            label="Criteria"
+            placeholder="Enter the reason"
+            type="text"
+            value={criteriaValue}
+            changeValue={setCriteriaValue}/>
+        }
+        {
+            fieldValue==="Time Period" &&
+            <Input
+            label="Criteria"
+            placeholder="Enter the time-period"
+            type="text"
+            value={criteriaValue}
+            changeValue={setCriteriaValue}/>
+        }
+        {props.isDeletable && <div onClick={props.deleteRule} className="h-9 w-9 bg-grey-4 flex align-center justify-center rounded-md p-1 mt-6 hover:bg-black cursor-pointer">
                         <img alt="" src={deleteIcon} />
                         </div>}
     </div>);
