@@ -25,8 +25,9 @@ function Rule(props) {
     
     useEffect(()=>
     {
-        updateRule(props.id ,fieldValue,criteriaValue,conditionValue);
+        updateRule(props.groupId,props.id ,fieldValue,criteriaValue,conditionValue);
     },[fieldValue,conditionValue,criteriaValue]);
+    
     useEffect(() => {
         setCriteriaValue("");
         setConditionValue("");

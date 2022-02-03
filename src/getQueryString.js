@@ -30,11 +30,12 @@ const getCondtionSymbol = (condition) => {
   }
 };
 
-export default function getString(ruleGroup) {
-  let QueryString = "";
-    ruleGroup.rules.forEach((rule, index) => {
-      QueryString += ` "(field.${rule.field}) ${getCondtionSymbol(rule.condition)} 
-                        \\"${rule.criteria}"\\" 
-                        ${index !== ruleGroup.rules.length -1 ? getConjunctionSymbol(ruleGroup.conjunction): ""}`;});
-  return QueryString;
+export default function getString(RuleGroups) {
+  let queryString = "";
+  RuleGroups.forEach((group)=>{
+      group.ruleGroup.children.forEach((rule,index)=>{
+        queryString=queryString + `"(field.${rule.field}) ${getCondtionSymbol(rule.condition)} \\"${rule.criteria}"\\" 
+                                    ${index !== group.ruleGroup.children.length -1 ? getConjunctionSymbol(group.ruleGroup.conjunction): ""}`;});
+      });
+  return queryString;
 }

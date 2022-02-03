@@ -4,34 +4,68 @@ import {nanoid} from "nanoid";
 import _ from "lodash";
 import getString from "./getQueryString.js";
 
-
 class queryStore {
   constructor() {
     makeAutoObservable(this);
   }
 
-  RuleGroups = {
-      id: nanoid(),
-      rules:[{id:nanoid(),field: null ,condition: null,value: null}],
-      conjunction:"AND"
-    };
+  RuleGroups = [{
+      groupId: nanoid(),
+      ruleGroup:
+      {
+        children:[{id:nanoid(),field: null ,condition: null,value: null}],
+        conjunction:"AND",
+        not:false,
+        type:"rule_group"
+      },
+    }];
    
-    updateRule=(rule_id,field,criteria,condition)=>
+    updateRule=(group_id,rule_id,field,criteria,condition)=>
     {
-     this.RuleGroups.rules.forEach(
-      (rule,index)=>
+      let groupIndex=-1;
+      this.RuleGroups.forEach(
+        (ruleGroup,index)=>{
+          if(ruleGroup.groupId===group_id)
+          groupIndex=index;
+        });
+      if(groupIndex!==-1)
+      {
+        this.RuleGroups[groupIndex].ruleGroup.children.forEach(
+          (rule)=>
+            {
+              if(rule.id===rule_id)
+              {
+                rule.field=field;rule.criteria=criteria;rule.condition=condition;
+              }
+            }
+         );
+      }
+    };
+
+    addGroup=()=>{
+      this.RuleGroups.push({
+        groupId: nanoid(),
+        ruleGroup:
         {
-          if(rule.id===rule_id)
-          {
-            rule.field=field;rule.criteria=criteria;rule.condition=condition;
-          }
-        }
-     );
+          children:[{id:nanoid(),field: null ,condition: null,value: null}],
+          conjunction:"AND",
+          not:false,
+          type:"rule_group"
+        },
+      });
     };
     clearAllQueries=()=>
     {
-      this.RuleGroups.rules=[{id:nanoid(),field: null ,condition: null,value: null}];
-      this.conjunction="AND";
+      this.RuleGroups = [{
+        groupId: nanoid(),
+        ruleGroup:
+        {
+          children:[{id:nanoid(),field: null ,condition: null,value: null}],
+          conjunction:"AND",
+          not:false,
+          type:"rule_group"
+        },
+      }];
     }
   getQueryString = () => getString(this.RuleGroups);
 }
