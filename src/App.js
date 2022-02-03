@@ -1,9 +1,9 @@
 import React  from 'react';
-import Query_Builder from "./Components/Query_Builder";
+import QueryBuilder from "./Components/QueryBuilder";
 function App() {
   return (
     <div className="h-screen bg-cover bg-top flex justify-center bg-Main-Background items-center overflow-y-auto">
-       <Query_Builder /> 
+       <QueryBuilder /> 
     </div>
   );
 }
