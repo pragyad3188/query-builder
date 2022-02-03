@@ -15,25 +15,7 @@ class queryStore {
       rules:[{id:nanoid(),field: null ,condition: null,value: null}],
       conjunction:"AND"
     };
-
-      addRule = () => {
-        // setRules((rules) => [...rules, nanoid()]);
-        this.RuleGroups.rules.push({ id: nanoid(),field: null ,condition: null,value: null });
-
-      };    
-      toggleRuleGroupConjunction = (id,conjunction) => {
-        this.RuleGroups.conjunction = conjunction;
-      };
-
-      deleteRule = (rule_id) => {
-        let newRules=_.remove(this.RuleGroups.rules,function(rule){
-          console.log(rule.id + " and "+ rule_id);
-          if(rule.id!==rule_id)
-            return true;
-        });
-        this.RuleGroups.rules=newRules;
-    };
-
+   
     updateRule=(rule_id,field,criteria,condition)=>
     {
      this.RuleGroups.rules.forEach(
@@ -46,17 +28,11 @@ class queryStore {
         }
      );
     };
-  // updateRule = (rule_id, rule) => {
-  //   const group = _.find(this.RuleGroups, { id: group_id });
-  //   const index = _.findIndex(this.RuleGroups, { id: group_id });
-
-  //   if (group) {
-  //     const rule_index = _.findIndex(group.group.children, { id: rule_id });
-  //     group.group.children[rule_index] = rule;
-  //     this.RuleGroups[index] = group;
-  //   }
-  // };
-
+    clearAllQueries=()=>
+    {
+      this.RuleGroups.rules=[{id:nanoid(),field: null ,condition: null,value: null}];
+      this.conjunction="AND";
+    }
   getQueryString = () => getString(this.RuleGroups);
 }
 

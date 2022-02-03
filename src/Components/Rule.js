@@ -25,7 +25,7 @@ function Rule(props) {
     
     useEffect(()=>
     {
-        updateRule(props.rule.id ,fieldValue,criteriaValue,conditionValue);
+        updateRule(props.id ,fieldValue,criteriaValue,conditionValue);
     },[fieldValue,conditionValue,criteriaValue]);
     useEffect(() => {
         setCriteriaValue("");
@@ -59,7 +59,7 @@ function Rule(props) {
 }
 
 Rule.propTypes = {
-rule:PropTypes.object,
+id:PropTypes.string,
 isDeletable:PropTypes.bool,
 deleteRule:PropTypes.func,
 groupId:PropTypes.string

@@ -9,29 +9,34 @@ import { observer } from "mobx-react-lite";
 import _ from "lodash";
 
 function RuleGroup(props){
-    // const[rules,setRules]=useState([nanoid()]);
-    const{addRule,deleteRule,toggleRuleGroupConjunction}=useContext(queryStore); 
+
+
+    const{RuleGroups}=useContext(queryStore); 
     const {rules}=props.ruleGroup;
     const[conjunctionToggle,setConjuction]=useState(props.ruleGroup.conjunction);
-    // const addRule = (group_id) => {
-        // setRules((rules) => [...rules, nanoid()]);
-    //     RuleGroups.rules.push({ id: nanoid(),field: "",condition: "",value: "" });
-    //   };    
+
     function conjuctionToggleHandler(newConjunction){
         setConjuction(newConjunction);
-        toggleRuleGroupConjunction(props.id,newConjunction)
+        //toggleRuleGroupConjunction(props.id,newConjunction)
+        RuleGroups.conjunction=newConjunction;
     }
-    //     RuleGroups.conjuction = conjuction;
-    //   };
-    //   const deleteRule = (group_id,rule_id) => {
-         // setRules((rules) => rules.filter((i) => i !== rule_id));
-    //     RuleGroups.rules=_.remove(RuleGroups.rules, { id: rule_id });
-    // };
+    const addRule = () => {
+        RuleGroups.rules.push({ id: nanoid(),field: null ,condition: null,value: null });
+      };    
+      const deleteRule = (rule_id) => {
+        let newRules=_.remove(RuleGroups.rules,function(rule){
+          if(rule.id!==rule_id)
+            return true;
+        });
+        RuleGroups.rules=newRules;
+    };
+
+
     let setStyle="py-2 px-3 bg-blue cursor-pointer";
     let notSetStyle="py-2 px-3 bg-white2 border-grey-2 border cursor-pointer";
     return(
         <div className="bg-light_black p-4 m-5 rounded border-grey-2">
-            <div className="text-sm text-white font-medium pb-8">
+            <div className={`${props.ruleGroup.rules.length<=1 ?"hidden ":"text-sm text-white font-medium pb-8"}`}>
                 <span className={`${conjunctionToggle === "AND" ? setStyle : notSetStyle}  rounded-l-md `} onClick={() => conjuctionToggleHandler("AND")}>
                 AND
                 </span>
@@ -44,7 +49,7 @@ function RuleGroup(props){
             rules.map((rule,index) => 
                 <Rule 
                 key={rule.id} 
-                rule={rule} 
+                id={rule.id} 
                 isDeletable={index!==0 ? true:false} 
                 deleteRule={()=>deleteRule(rule.id)}
                 groupId={props.id}/>)

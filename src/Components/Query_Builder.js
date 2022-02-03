@@ -7,14 +7,14 @@ import { observer } from "mobx-react-lite";
 
 
 function Query_Builder(props){
-    const {RuleGroups,getQueryString} = useContext(queryStore);
+    const {RuleGroups,getQueryString,clearAllQueries} = useContext(queryStore);
     const query=getQueryString();
     return (
         <div className="h-4/5 w-2/3  bg-black rounded shadow-lg flex flex-col">
             <div className="bg-blue px-8 py-8 flex flex-col">
                 <div className="flex ">
                     <div className="font-medium text-lg leading-7 text-white grow">
-                        Create tag and query
+                        {(RuleGroups.rules[0].field || RuleGroups.rules.length > 1)? "Build your query":"Create tag and query"}
                     </div>
                     <div className="bg-indigo-700 justify-center rounded ">
                         <img src={closeIcon} className="inline-block m-1 " alt="close" />
@@ -33,7 +33,7 @@ function Query_Builder(props){
             
             <RuleGroup key={RuleGroups.id} id={RuleGroups.id} ruleGroup={RuleGroups}/>
             <div className="m-2 ">
-                <button className={`bg-grey-1 py-2 px-5 text-white rounded-md font-medium text-base hover:bg-grey-2 opacity-70`}>Back</button>
+                <button onClick={()=>clearAllQueries()}className={`bg-grey-1 py-2 px-5 text-white rounded-md font-medium text-base hover:bg-grey-2 opacity-70`}>Back</button>
                 <button className={`float-right bg-blue hover:bg-indigo-700 py-2 px-5 text-white rounded-md font-medium text-base`}>Finish</button>
             </div>
 
