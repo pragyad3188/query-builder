@@ -45,8 +45,9 @@ function Rule(props) {
 
     useEffect(()=>
     {
-        updateRule(props.groupId,props.id ,fieldValue,criteriaValue,conditionValue);
-    },[fieldValue,conditionValue,criteriaValue]);
+        if(fieldValue)
+            updateRule(props.groupId,props.id ,fieldValue,criteriaValue,conditionValue);
+    },[fieldValue, conditionValue, criteriaValue, updateRule, props.groupId, props.id]);
     
     useEffect(() => {
         setCriteriaValue("");
@@ -68,7 +69,7 @@ function Rule(props) {
                 valueSelected={conditionValue}
                 setValueSelected={setConditionValue} />
 
-        {(["Theme","Sub-theme","Rating","Source","Language","Initial"].includes(fieldValue)||!fieldValue) && 
+        {(["Theme","Sub-theme","Rating","Source","Language","Initial"].includes(fieldValue)) && 
             <DropdownBar
                 title="Criteria"
                 isVisible={true}
