@@ -31,7 +31,7 @@ function Query_Builder(props){
                     </div>
                 </div>
                 {(RuleGroups[0].ruleGroup.children[0].field || RuleGroups[0].ruleGroup.children.length > 1)?
-                    <p className="text-white text-sm my-1 mx-0.5 bg-indigo-700 p-2 rounded font-medium">
+                    <p className="overflow-x-auto text-white text-sm my-1 mx-0.5 bg-indigo-700 p-2 rounded font-medium">
                         <span className="font-bold">Query: </span>
                         {query}
                     </p>:(

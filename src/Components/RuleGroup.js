@@ -12,7 +12,7 @@ import _ from "lodash";
 function RuleGroup(props){
 
 
-    const{RuleGroups}=useContext(queryStore);
+    const{RuleGroups,deleteGroup}=useContext(queryStore);
     const[conjunctionToggle,setConjuction]=useState(props.group.conjunction);
 
     function conjuctionToggleHandler(grp_id,newConjunction){
@@ -53,6 +53,7 @@ function RuleGroup(props){
     let notSetStyle="py-2 px-3 bg-white2 border-grey-2 border cursor-pointer";
     return(
         <div className="bg-light_black p-4 m-5 rounded border-grey-2">
+            <div className="hover:bg-black cursor-pointer"><img onClick={()=>deleteGroup(props.id)} src={deleteIcon} className={`${RuleGroups[0].groupId===props.id?"hidden inline-block float-right ":"inline-block float-right"}`} alt="close"/></div>
             <div className={`${props.group.children.length<=1 ?"hidden ":"text-sm text-white font-medium pb-8"}`}>
                 <span className={`${conjunctionToggle === "AND" ? setStyle : notSetStyle}  rounded-l-md `} onClick={() => conjuctionToggleHandler(props.id,"AND")}>
                 AND

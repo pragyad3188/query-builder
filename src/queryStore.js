@@ -2,7 +2,7 @@ import { makeAutoObservable,toJS } from "mobx";
 import { createContext } from "react";
 import {nanoid} from "nanoid";
 import getString from "./getQueryString.js";
-
+import _ from "lodash";
 class queryStore {
   constructor() {
     makeAutoObservable(this);
@@ -41,7 +41,10 @@ class queryStore {
          );
       }
     };
-
+    isGroupDeletable=(group_id)=>{if(this.RuleGroups[0].groupId===group_id)
+      return false;
+      return true;
+    }
     addGroup=()=>{
       this.RuleGroups.push({
         groupId: nanoid(),
@@ -54,6 +57,15 @@ class queryStore {
         },
       });
     };
+    deleteGroup=(group_id)=>
+    {
+      let newGroups=_.remove(this.RuleGroups,
+        function(group){
+            if(group.groupId!==group_id)
+                return true;
+            return false;});
+      this.RuleGroups=newGroups;
+    }
     clearAllQueries=()=>
     {
       this.RuleGroups = [{
