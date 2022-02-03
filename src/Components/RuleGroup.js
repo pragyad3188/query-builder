@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useContext} from 'react';
 import PropTypes from 'prop-types'; 
 import infoIcon from '../Icons/info.svg';
+import deleteIcon from '../Icons/delete.svg';
 import { nanoid } from 'nanoid';
 import Rule from './Rule';
 import queryStore from "../queryStore";
@@ -59,7 +60,7 @@ function RuleGroup(props){
                 <span className={`${conjunctionToggle === "OR" ? setStyle : notSetStyle} rounded-r-md`} onClick={() => conjuctionToggleHandler(props.id,"OR")}>
                 OR
                 </span>
-                <img src={infoIcon} className="inline-block ml-2" alt="info" />    
+                <img src={infoIcon} className="inline-block ml-2" alt="info" />
             </div>
             {
             props.group.children.map((rule,index) => 

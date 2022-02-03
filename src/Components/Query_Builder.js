@@ -1,5 +1,5 @@
 import React from 'react';
-import {useContext} from 'react';
+import {useContext,useState} from 'react';
 import closeIcon from '../Icons/Icon.svg';
 import RuleGroup from './RuleGroup';
 import queryStore from "../queryStore";
@@ -7,9 +7,18 @@ import { observer } from "mobx-react-lite";
 
 
 function Query_Builder(props){
-    const {RuleGroups,getQueryString,clearAllQueries,addGroup} = useContext(queryStore);
+    const {RuleGroups,getQueryString,clearAllQueries,addGroup,setGlobalConjunction,submitQuery} = useContext(queryStore);
+    const [conjunctionToggle,setConjunctionToggle]=useState("AND");
     const query=getQueryString();
 
+    function toggleConjunction(conjunction)
+    {
+        setGlobalConjunction(conjunction);
+        setConjunctionToggle(conjunction);
+    }
+
+    let setStyle="py-2 px-3 bg-blue cursor-pointer";
+    let notSetStyle="py-2 px-3 bg-grey-2 border-grey-2 border cursor-pointer";
     return (
         <div className="h-4/5 w-2/3  bg-black rounded shadow-lg flex flex-col">
             <div className="bg-blue px-8 py-8 flex flex-col">
@@ -31,6 +40,16 @@ function Query_Builder(props){
                     </p>)
                 }   
             </div>
+
+            <div className={`${RuleGroups.length<=1 ?"hidden ":"mt-4 ml-1 text-sm text-white font-medium pb-8"}`}>
+                <span className={`${conjunctionToggle === "AND" ? setStyle : notSetStyle}  rounded-l-md `} onClick={() => toggleConjunction("AND")}>
+                AND
+                </span>
+                <span className={`${conjunctionToggle === "OR" ? setStyle : notSetStyle} rounded-r-md`} onClick={() => toggleConjunction("OR")}>
+                OR
+                </span>    
+            </div>
+
             {
             RuleGroups.map((grp)=>
                 <RuleGroup 
@@ -43,9 +62,11 @@ function Query_Builder(props){
             </div>
             <div className="m-2 ">
                 <button onClick={()=>clearAllQueries()}className={`bg-grey-1 py-2 px-5 text-white rounded-md font-medium text-base hover:bg-grey-2 opacity-70`}>Back</button>
-                <button className={`float-right bg-blue hover:bg-indigo-700 py-2 px-5 text-white rounded-md font-medium text-base`}>Finish</button>
+                <button onClick={()=>submitQuery()}className={`float-right bg-blue hover:bg-indigo-700 py-2 px-5 text-white rounded-md font-medium text-base`}>Finish</button>
             </div>
         </div>
     );
 }
+
+
 export default observer(Query_Builder);

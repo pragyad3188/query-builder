@@ -26,7 +26,7 @@ function DropdownBar(props) {
 
         {
         showDropdownToggle && 
-        <div className="absolute py-3.5 px-2 bg-grey-4 border border-grey-2 rounded-md top-16 w-60">
+        <div className="absolute py-3.5 px-2 bg-grey-4 border border-grey-2 rounded-md top-16 w-60 z-10">
           {props.dropdownValues.map( (obj) => (
             <div key={obj.type}>
               <p className="text-white opacity-50 text-xs mb-2 tracking-widest font-medium ">

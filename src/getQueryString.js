@@ -30,12 +30,16 @@ const getCondtionSymbol = (condition) => {
   }
 };
 
-export default function getString(RuleGroups) {
-  let queryString = "";
-  RuleGroups.forEach((group)=>{
+export default function getString(RuleGroups,GlobalConjunction) {
+  let queryString = "(";
+  RuleGroups.forEach((group,index1)=>{
       group.ruleGroup.children.forEach((rule,index)=>{
         queryString=queryString + `"(field.${rule.field}) ${getCondtionSymbol(rule.condition)} \\"${rule.criteria}"\\" 
                                     ${index !== group.ruleGroup.children.length -1 ? getConjunctionSymbol(group.ruleGroup.conjunction): ""}`;});
-      });
+        if(index1 !== RuleGroups.length-1)
+            queryString+=`)  ${getConjunctionSymbol(GlobalConjunction)}  (`;
+        else
+            queryString+=')';
+    });
   return queryString;
 }

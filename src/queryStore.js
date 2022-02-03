@@ -1,14 +1,13 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable,toJS } from "mobx";
 import { createContext } from "react";
 import {nanoid} from "nanoid";
-import _ from "lodash";
 import getString from "./getQueryString.js";
 
 class queryStore {
   constructor() {
     makeAutoObservable(this);
   }
-
+  GlobalConjunction="AND";
   RuleGroups = [{
       groupId: nanoid(),
       ruleGroup:
@@ -19,7 +18,8 @@ class queryStore {
         type:"rule_group"
       },
     }];
-   
+    
+    setGlobalConjunction=(conjunction)=>{this.GlobalConjunction=conjunction;};
     updateRule=(group_id,rule_id,field,criteria,condition)=>
     {
       let groupIndex=-1;
@@ -67,7 +67,14 @@ class queryStore {
         },
       }];
     }
-  getQueryString = () => getString(this.RuleGroups);
+  getQueryString = () => getString(this.RuleGroups,this.GlobalConjunction);
+
+  submitQuery=()=>{
+    const outputString=this.getQueryString()
+    const queryObject=toJS(this.RuleGroups);
+    console.log("The query string is: "+outputString);
+    console.log(queryObject);
+  }
 }
 
 export default createContext(new queryStore());
